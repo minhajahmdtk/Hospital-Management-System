@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # -----------------------
@@ -28,6 +29,7 @@ class Doctor(models.Model):
 # Patient Model
 # -----------------------
 class Patient(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=15)
@@ -42,3 +44,22 @@ class Patient(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
+# -----------------------
+# Receptionist Model        
+# -----------------------
+
+
+class Receptionist(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=15)
+    email = models.EmailField(unique=True)
+    gender = models.CharField(
+        choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')],
+        default='Male'
+    )
+    address = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='receptionist_images/', blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"

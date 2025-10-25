@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from django.contrib.auth.models import User
-from .models import Doctor, Patient
+from .models import Doctor, Patient, Receptionist
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 
@@ -96,7 +96,7 @@ def view_patient_details(request, patient_id):
 
 
 def view_doctors(request):
-    doctors_list = Doctor.objects.all()
+    doctors_list = Doctor.objects.all().order_by('id')
     paginator = Paginator(doctors_list, 4)  # Show 4 doctors per page
 
     page_number = request.GET.get('page', 1)
@@ -141,7 +141,7 @@ def doctor_login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            messages.success(request, f"Doctor {username} logged in successfully!")
+            messages.success(request, " logged in successfully!")
             return redirect('home')  # or a doctor dashboard page
         else:
             messages.error(request, "Incorrect username or password!")
@@ -159,12 +159,19 @@ def patient_login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            messages.success(request, f"Patient {username} logged in successfully!")
-            return redirect('home')  # or a patient dashboard page
+            messages.success(request, "logged in successfully!")
+            return redirect('patient_profile')  # or a patient dashboard page
         else:
             messages.error(request, "Incorrect username or password!")
             return redirect('patient_login')
     return render(request, 'patient_login.html')
+
+
+def patient_profile(request):
+    return render(request, 'patient_profile.html')
+
+def edit_patient(request):
+    return render(request, 'edit_patient.html')
 
 
 # ---------------- Patient Registration ----------------
@@ -303,3 +310,74 @@ def receptionist_login(request):
             messages.error(request, "Invalid receptionist credentials")
 
     return render(request, 'receptionist_login.html')
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.models import User
+from .models import Receptionist
+
+def add_receptionist(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        phone = request.POST['contact']
+        gender = request.POST['gender']
+        address = request.POST['address']
+        image = request.FILES.get('image')
+
+        # Password validation
+        if password != confirm_password:
+            messages.info(request, "Passwords do not match!")
+            return redirect('add_receptionist')
+
+        # Check username
+        if User.objects.filter(username=username).exists():
+            messages.info(request, "Username already exists!")
+            return redirect('add_receptionist')
+
+        # Check email
+        if User.objects.filter(email=email).exists():
+            messages.info(request, "Receptionist with this email already exists!")
+            return redirect('add_receptionist')
+
+        # Create user account
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
+        user.save()
+
+        # Create receptionist record
+        Receptionist.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            phone=phone,
+            gender=gender,
+            address=address,
+            image=image
+        )
+
+        messages.success(request, "Receptionist added successfully!")
+        return redirect('admin_home')  # Redirect to admin home
+
+    return render(request, 'add_receptionist.html')
+
+def view_receptionists(request):
+    re = Receptionist.objects.all()
+    return render(request, 'view_receptionists.html', {'receptionists': re})
+
+
+
+def delete_receptionist(request, r_id):
+    receptionist = get_object_or_404(Receptionist, id=r_id)
+    receptionist.delete()
+    messages.success(request, "Receptionist deleted successfully.")
+    return redirect('view_receptionists')

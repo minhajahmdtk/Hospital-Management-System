@@ -11,6 +11,8 @@ urlpatterns = [
     path('view-patients/', views.view_patients, name='view_patients'),
     path('view-patient/<int:patient_id>/', views.view_patient_details, name='view_patient_details'),
     path('delete-patient/<int:id>/', views.delete_patient, name='delete_patient'),
+    path('patient-profile/', views.patient_profile, name='patient_profile'),
+    path('edit-patient/', views.edit_patient, name='edit_patient'),
 
 
 
@@ -30,4 +32,9 @@ urlpatterns = [
     path('patient-register/', views.patient_register, name='patient_register'),
     path('doctor-register/', views.doctor_register, name='doctor_register'),
     path('receptionist-login/', views.receptionist_login, name='receptionist_login'),
+
+    # ✅ Receptionist URLs
+    path('add_receptionist/', views.add_receptionist, name='add_receptionist'),
+    path('view-receptionists/', views.view_receptionists, name='view_receptionists'),
+    path('delete-receptionist/<int:r_id>/', views.delete_receptionist, name='delete_receptionist'),
 ]

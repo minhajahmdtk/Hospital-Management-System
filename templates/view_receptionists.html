@@ -1,0 +1,55 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+
+{% block title %}View Receptionists{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Receptionists</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Full Name</th>
+                    <th>Contact</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in receptionists %}
+                <tr>
+                    <td>{{ r.first_name }} {{ r.last_name }}</td>
+                    <td>{{ r.phone }}</td>
+                    <td>{{ r.email }}</td>
+                    <td>
+                        <a href="{% url 'delete_receptionist' r.id %}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure you want to delete this receptionist?');">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No receptionists found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            {% if receptionists.paginator.num_pages > 1 %}
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-center">
+                        {% for i in receptionists.paginator.page_range %}
+                            {% if receptionists.number == i %}
+                                <span class="btn btn-primary">{{ i }}</span>
+                            {% else %}
+                                <a href="?page={{ i }}" class="btn btn-light">{{ i }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tfoot>
+            {% endif %}
+        </table>
+    </div>
+</div>
+{% endblock %}
