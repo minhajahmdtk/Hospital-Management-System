@@ -11,10 +11,16 @@ urlpatterns = [
     path('view-patients/', views.view_patients, name='view_patients'),
     path('view-patient/<int:patient_id>/', views.view_patient_details, name='view_patient_details'),
     path('delete-patient/<int:id>/', views.delete_patient, name='delete_patient'),
-    path('patient-profile/', views.patient_profile, name='patient_profile'),
+    path('patient-profile/', views.patient_home, name='patient_home'),
     path('edit-patient/', views.edit_patient, name='edit_patient'),
+    path('patient-logout/', views.patient_logout, name='patient_logout'),
+    path('take-appointment/', views.take_appointment, name='take_appointment'),
+    path('view-appointments/', views.view_appointments, name='view_appointments'),
+    path('add-appointments/<int:doctor_id>/', views.add_appointments, name='add_appointments'),
+    path('delete-appointment/<int:appointment_id>/', views.delete_appointment, name='delete_appointment'),
 
-
+    # ✅ Medical History
+    path('view-medical-history/', views.medical_history, name='medical_history'),
 
     # ✅ Doctors
     path('view-doctors/', views.view_doctors, name='view_doctors'),
@@ -37,4 +43,5 @@ urlpatterns = [
     path('add_receptionist/', views.add_receptionist, name='add_receptionist'),
     path('view-receptionists/', views.view_receptionists, name='view_receptionists'),
     path('delete-receptionist/<int:r_id>/', views.delete_receptionist, name='delete_receptionist'),
+    path('receptionist-home/', views.receptionist_home, name='receptionist_home'),
 ]

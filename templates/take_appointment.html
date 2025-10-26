@@ -1,0 +1,37 @@
+{% extends 'base_patient.html' %}
+{% load static %}
+
+{% block title %}Take Appointment{% endblock %}
+
+{% block content %}
+<h3 class="text-center mb-4">Available Doctors</h3>
+
+<div class="row">
+  {% for doctor in doctors %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 text-center p-3">
+        <!-- Doctor Image -->
+        {% if doctor.image %}
+          <img src="{{ doctor.image.url }}" class="card-img-top mx-auto mb-3 rounded-circle" alt="Doctor Image" style="width:120px; height:120px; object-fit:cover;">
+        {% else %}
+          <img src="{% static 'images/default_avatar.png' %}" class="card-img-top mx-auto mb-3 rounded-circle" alt="Default Doctor" style="width:120px; height:120px; object-fit:cover;">
+        {% endif %}
+
+        <!-- Doctor Info -->
+        <div class="card-body">
+          <h5 class="card-title">{{ doctor.first_name }} {{ doctor.last_name }}</h5>
+          <p class="text-muted mb-1">{{ doctor.specialty }}</p>
+          <p class="text-muted small">{{ doctor.Gender }}</p>
+
+          <!-- Button to Add Appointment -->
+          <div class="d-flex justify-content-center gap-2">
+            <a href="{% url 'add_appointments' doctor.id %}" class="btn btn-primary btn-sm">Take Appointment</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-center">No doctors available at the moment.</p>
+  {% endfor %}
+</div>
+{% endblock %}

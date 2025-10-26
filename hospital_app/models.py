@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
 # -----------------------
 # Doctor Model
 # -----------------------
@@ -29,12 +30,11 @@ class Doctor(models.Model):
 # Patient Model
 # -----------------------
 class Patient(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=15)
     email = models.EmailField(unique=True)
-    Gender = models.CharField(max_length=10, choices=[('Male','Male'),('Female','Female'),('Other','Other')],default='Male')
+    Gender = models.CharField(max_length=10, choices=[('Male','Male'),('Female','Female'),('Other','Other')], default='Male')
     address = models.TextField(blank=True, null=True)
     blood_group = models.CharField(max_length=5, blank=True, null=True)
     image = models.ImageField(upload_to='patient_images/', blank=True, null=True)
@@ -63,3 +63,26 @@ class Receptionist(models.Model):
     
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+
+# -----------------------
+# Appointment Model
+# -----------------------       
+
+
+class Appointment(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    symptoms = models.TextField(max_length=500,null=True,blank=True)
+    disease = models.CharField(max_length=200,null=True,blank=True) 
+    status = models.CharField(max_length=20,  choices=[
+            ('Pending', 'Pending'),
+            ('Confirmed', 'Confirmed'),
+            ('Completed', 'Completed'),
+            ('Cancelled', 'Cancelled'),
+        ],
+        default='Pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Appointment: {self.patient} with {self.doctor} ({self.status})"
