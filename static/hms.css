@@ -1,0 +1,61 @@
+
+.body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* doctor register */
+
+.input-focus {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.input-focus:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+
+
+.btn:hover {
+  background-color: lightgreen;
+  border: none;
+    color: black;
+}
+.class-body{
+   padding: 100px;
+}
+
+
+  
+  .dashboard-card {
+  height: 230px;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.dashboard-card:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Optional: card-specific glow colors */
+.bg-primary:hover {
+  box-shadow: 0 0 25px rgba(13, 110, 253, 0.6);
+}
+
+.bg-success:hover {
+  box-shadow: 0 0 25px rgba(25, 135, 84, 0.6);
+}
+
+.bg-warning:hover {
+  box-shadow: 0 0 25px rgba(255, 193, 7, 0.6);
+}
+
+

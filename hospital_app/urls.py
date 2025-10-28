@@ -30,6 +30,7 @@ urlpatterns = [
     path('edit-doctor/<int:doctor_id>/', views.edit_doctor, name='edit_doctor'),
     path('delete-doctor/<int:doctor_id>/', views.delete_doctor, name='delete_doctor'),
     path('view-doctor/<int:d_id>/', views.view_doctor_details, name='view_doctor_details'),
+    path('view_doctor_detail/<int:doctor_id>/', views.view_doctor_detail, name='view_doctor_detail'),
 
     # ✅ Other pages
     path('about/', views.about, name='about'),

@@ -18,7 +18,8 @@ class Doctor(models.Model):
     specialization = models.CharField(max_length=100, blank=True, null=True)
     image = models.ImageField(upload_to='doctor_images/', blank=True, null=True)
     is_active = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    experience = models.CharField(blank=True, null=True)  # in years     
+    qualification = models.CharField(max_length=200, blank=True, null=True)  
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

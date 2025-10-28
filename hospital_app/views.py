@@ -69,6 +69,13 @@ def logout_view(request):
 
 def view_patients(request):
     patients = Patient.objects.all()
+    paginator= Paginator(patients, 4)
+      
+    page_number = request.GET.get('page', 1)
+    try:
+        patients = paginator.page(page_number)      
+    except (InvalidPage, EmptyPage):
+        patients = paginator.page(paginator.num_pages)      
     return render(request, 'view_patients.html', {'patients': patients})
 
 
@@ -77,7 +84,6 @@ def view_patients(request):
 def delete_patient(request, id):
     patient = get_object_or_404(Patient, id=id)
     patient.delete()
-    messages.success(request, "Patient deleted successfully.")
     return redirect('view_patients')
 
 
@@ -131,7 +137,13 @@ def view_doctor_details(request, d_id):
     d = get_object_or_404(Doctor, id=d_id)
     return render(request, 'view_doctor_details.html', {'doctor': d})
 
+#-------------------------
+# View Doctor Detail  in admin Login      
+#-------------------------
 
+def view_doctor_detail(request, doctor_id):
+    doctor = get_object_or_404(Doctor, id=doctor_id)
+    return render(request, 'view_doctor_detail.html', {'doctor': doctor})
 # -------------------------
 # Doctor Login
 # -------------------------
@@ -176,7 +188,6 @@ def edit_patient(request):
 
 def patient_logout(request):
     auth.logout(request)
-    messages.success(request, "You have been logged out.")
     return redirect('patient_login')
 
 # ---------------- Appintments ----------------
@@ -328,7 +339,11 @@ def doctor_register(request):
         gender = request.POST['gender']
         address = request.POST['address']
         image = request.FILES.get('image')
+        specialization = request.POST.get('specialization')
+        qualification = request.POST.get('qualification')
+        experience = request.POST.get('experience')
 
+        # Validations
         if len(password) < 6:
             messages.info(request, "Password must be at least 6 characters long!")
             return redirect('doctor_register')
@@ -345,10 +360,16 @@ def doctor_register(request):
             messages.info(request, "Email already exists!")
             return redirect('doctor_register')
 
-        user = User.objects.create_user(username=username, email=email, password=password,
-                                        first_name=first_name, last_name=last_name)
-        user.save()
+        # Create Django user
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
 
+        # Create Doctor profile
         Doctor.objects.create(
             first_name=first_name,
             last_name=last_name,
@@ -356,10 +377,13 @@ def doctor_register(request):
             phone=phone,
             Gender=gender,
             address=address,
+            specialization=specialization,
+            qualification=qualification,
+            experience=experience,  # ✅ added
             image=image,
         )
 
-       
+        messages.success(request, "Doctor registered successfully! Await admin approval.")
         return redirect('doctor_login')
 
     return render(request, 'doctor_register.html')

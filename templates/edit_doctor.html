@@ -1,25 +1,43 @@
 {% extends 'base_admin.html' %}
 {% load static %}
 
-{% block title %}Edit Doctor Status{% endblock %}
+{% block title %}Edit Doctor Status - HMS{% endblock %}
 
 {% block content %}
-<div class="card shadow-sm border-0 mx-auto" style="max-width: 500px; padding: 30px;">
-  <h4 class="mb-4 text-center">Edit Status: {{ doctor.first_name }} {{ doctor.last_name }}</h4>
-  
-  <form method="POST">
-    {% csrf_token %}
-    <div class="mb-3">
-      <label for="status" class="form-label">Status</label>
-      <select name="status" id="status" class="form-select">
-        <option value="active" {% if doctor.is_active %}selected{% endif %}>Active</option>
-        <option value="inactive" {% if not doctor.is_active %}selected{% endif %}>Inactive</option>
-      </select>
+<link rel="stylesheet" href="{% static 'hms.css' %}">
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+  <div class="card shadow border-0" style="max-width: 600px; width: 100%; border-radius: 10px;">
+
+    <!-- Header -->
+    <div class="card-header text-center text-white py-3 bg-dark rounded-top">
+      <h4 class="fw-bold mb-0"> Edit Doctor Status</h4>
+      <h6 class="small mb-0 text-light">{{ doctor.first_name }} {{ doctor.last_name }}</h6>
     </div>
-    <div class="d-flex justify-content-between">
-      <button type="submit" class="btn btn-success">Update Status</button>
-      <a href="{% url 'view_doctors' %}" class="btn btn-secondary">← Back</a>
+
+    <!-- Body -->
+    <div class="card-body p-4">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Status dropdown -->
+        <div class="mb-4">
+          <label for="status" class="form-label fw-semibold">Status</label>
+          <select name="status" id="status" class="form-control bg-light border-0 shadow-sm py-2" required>
+            <option value="active" {% if doctor.is_active %}selected{% endif %}>Active</option>
+            <option value="inactive" {% if not doctor.is_active %}selected{% endif %}>Inactive</option>
+          </select>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'view_doctors' %}" class="btn btn-secondary w-50 me-2 py-2 fw-semibold">← Back</a>
+          <button type="submit" class="btn btn-dark w-50 py-2 fw-semibold">Update</button>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
+
+<script src="{% static 'javascript/hms.js' %}"></script>
 {% endblock %}

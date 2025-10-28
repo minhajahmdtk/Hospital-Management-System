@@ -1,35 +1,49 @@
 {% extends 'base_admin.html' %}
+{% load static %}
 {% block title %}Admin Home{% endblock %}
+
 {% block content %}
-  <h2>Welcome, Admin {{ request.user.username }}</h2>
-  <p>This is your admin dashboard.</p>
+<link rel="stylesheet" href="{% static 'hms.css' %}">
 
-  <div class="row mt-4">
-    <div class="col-md-4">
-      <div class="card text-white bg-primary mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Total Doctors</h5>
-          <p class="card-text fs-3">{{ total_doctors }}</p>
+<div class="container mt-5 text-center">
+  <h1 class="fw-bold mb-4">Welcome, {{ request.user.username }}</h1>
+  <h5 class="text-muted mb-5">
+    Admin dashboard of <span style="color: rgb(230, 48, 48); font-weight: bold;">PulseTrack</span>.
+  </h5>
+
+  <div class="row justify-content-center g-4">
+    
+    <!-- Total Doctors -->
+    <div class="col-10 col-sm-6 col-md-4 col-lg-3">
+      <div class="card text-white bg-dark text-center py-4 dashboard-card d-flex align-items-center justify-content-center" style="height: 220px;">
+        <div>
+          <h4 class="mb-2">Total Doctors</h4>
+          <h2 class="fw-bold">{{ total_doctors }}</h2>
         </div>
       </div>
     </div>
 
-    <div class="col-md-4">
-      <div class="card text-white bg-success mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Total Patients</h5>
-          <p class="card-text fs-3">{{ total_patients }}</p>
+    <!-- Total Patients -->
+    <div class="col-10 col-sm-6 col-md-4 col-lg-3">
+      <div class="card text-white bg-danger text-center py-4 dashboard-card d-flex align-items-center justify-content-center" style="height: 220px;">
+        <div>
+          <h4 class="mb-2">Total Patients</h4>
+          <h2 class="fw-bold">{{ total_patients }}</h2>
         </div>
       </div>
     </div>
 
-    <div class="col-md-4">
-      <div class="card text-white bg-warning mb-3">
-        <div class="card-body">
-          <h5 class="card-title">Active Doctors</h5>
-          <p class="card-text fs-3">{{ active_doctors }}</p>
+    <!-- Active Doctors -->
+    <div class="col-10 col-sm-6 col-md-4 col-lg-3">
+      <div class="card text-white bg-success text-center py-4 dashboard-card d-flex align-items-center justify-content-center" style="height: 220px;">
+        <div>
+          <h4 class="mb-2">Active Doctors</h4>
+          <h2 class="fw-bold">{{ active_doctors }}</h2>
         </div>
       </div>
     </div>
+
   </div>
+</div>
+
 {% endblock %}
