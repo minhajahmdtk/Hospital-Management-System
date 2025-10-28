@@ -10,9 +10,7 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage
 
 
 
-# -------------------------
-# Static pages
-# -------------------------
+
 def home(request):
     return render(request, 'home.html')
 
@@ -22,9 +20,7 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html')
 
-# -------------------------
-# Admin Login
-# -------------------------
+
  
 def admin_login(request):
     if request.method == 'POST':
@@ -35,7 +31,7 @@ def admin_login(request):
         if user is not None:
             login(request, user)
             messages.success(request, f"Welcome {user.username}")
-            return redirect('admin_home')  # You can create this page
+            return redirect('admin_home')  
         else:
             messages.error(request, "Invalid admin credentials")
 
@@ -66,18 +62,13 @@ def admin_home(request):
         'active_doctors': active_doctors,})
 
 
-# -------------------------
-# Admin logout
-# -------------------------
+
 
 def logout_view(request):
     auth.logout(request)
-    messages.success(request, "You have been logged out.")
     return redirect('home')
 
-# -------------------------
-# Patient List
-# -------------------------
+
 
 def view_patients(request):
     patients = Patient.objects.all()
@@ -105,18 +96,9 @@ def view_patient_details(request, patient_id):
 
 
 
-
-# -------------------------
-# Doctor List
-# -------------------------
-
-
-
-
-
 def view_doctors(request):
     doctors_list = Doctor.objects.all().order_by('id')
-    paginator = Paginator(doctors_list, 6)  # Show 4 doctors per page
+    paginator = Paginator(doctors_list, 6) 
 
     page_number = request.GET.get('page', 1)
     try:
@@ -130,7 +112,7 @@ def edit_doctor(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
 
     if request.method == 'POST':
-        status = request.POST.get('status')  # Get selected status from form
+        status = request.POST.get('status')  
         doctor.is_active = True if status == 'active' else False
         doctor.save()
         messages.success(request, f"{doctor.first_name} {doctor.last_name}'s status updated.")
@@ -142,23 +124,17 @@ def edit_doctor(request, doctor_id):
 def delete_doctor(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
     doctor.delete()
-    messages.success(request, "Doctor deleted successfully.")
     return redirect('view_doctors')
 
 def view_doctor_details(request, d_id):
     d = get_object_or_404(Doctor, id=d_id)
     return render(request, 'view_doctor_details.html', {'doctor': d})
 
-#-------------------------
-# View Doctor Detail  in admin Login      
-#-------------------------
 
 def view_doctor_detail(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
     return render(request, 'view_doctor_detail.html', {'doctor': doctor})
-# -------------------------
-# Doctor Login
-# -------------------------
+
 def doctor_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -166,17 +142,14 @@ def doctor_login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            messages.success(request, " logged in successfully!")
-            return redirect('doctor_home')  # or a doctor dashboard page
+            return redirect('doctor_home') 
         else:
             messages.error(request, "Incorrect username or password!")
             return redirect('doctor_login')
     return render(request, 'doctor_login.html')
 
 
-# -------------------------
-# Patient Login
-# -------------------------
+
 def patient_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -184,8 +157,7 @@ def patient_login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            messages.success(request, "logged in successfully!")
-            return redirect('patient_home')  # or a patient dashboard page
+            return redirect('patient_home')  
         else:
             messages.error(request, "Incorrect username or password!")
             return redirect('patient_login')
@@ -197,13 +169,13 @@ def patient_home(request):
         return redirect('patient_login')
 
     try:
-        # Get the actual Patient object linked to this user
+       
         patient = Patient.objects.get(email=request.user.email)
     except Patient.DoesNotExist:
         messages.error(request, "Patient profile not found.")
         return redirect('patient_register')
 
-    # Count appointments by status for this patient
+    
     pending_count = Appointment.objects.filter(patient=patient, status='Pending').count()
     confirmed_count = Appointment.objects.filter(patient=patient, status='Confirmed').count()
     cancelled_count = Appointment.objects.filter(patient=patient, status='Cancelled').count()
@@ -224,7 +196,7 @@ def patient_logout(request):
     auth.logout(request)
     return redirect('patient_login')
 
-# ---------------- Appintments ----------------
+
 
 def take_appointment(request):
     doctors = Doctor.objects.filter(is_active=True).order_by('first_name')  
@@ -253,12 +225,12 @@ def add_appointments(request, doctor_id):
         symptoms = request.POST.get('symptoms')
 
         if symptoms:
-            # Create appointment with no date yet
+            
             Appointment.objects.create(
                 patient=patient,
                 doctor=doctor,
                 symptoms=symptoms,
-                status='Pending'  # date is left as None for receptionist to assign
+                status='Pending' 
             )
             messages.success(request, "Appointment request submitted successfully!")
             return redirect('view_appointments')
@@ -274,11 +246,10 @@ def view_appointments(request):
         messages.error(request, "No patient profile found.")
         return redirect('patient_register')
 
-    # Fetch appointments (latest first)
     appointments_list = Appointment.objects.filter(patient=patient).order_by('-id')
 
-    # --- Pagination Setup ---
-    paginator = Paginator(appointments_list, 6)  # 5 appointments per page
+  
+    paginator = Paginator(appointments_list, 6) 
     page_number = request.GET.get('page')
     appointments = paginator.get_page(page_number)
 
@@ -290,7 +261,7 @@ def delete_appointment(request, appointment_id):
     appointment.delete()
    
     return redirect('view_appointments')
-# ---------------- Medical History ----------------
+
 
 def patient_medical_history(request):
     if not request.user.is_authenticated:
@@ -309,8 +280,6 @@ def patient_medical_history(request):
     })
 
 
-# ---------------- Patient Registration ----------------
-
 
 def patient_register(request):
     if request.method == 'POST':
@@ -324,14 +293,14 @@ def patient_register(request):
         gender = request.POST['gender']
         address = request.POST['address']
         blood_group = request.POST['blood_group']
-        image = request.FILES.get('image')  # safer with .get()
+        image = request.FILES.get('image')  
 
-        # Password check
+        
         if password != confirm_password:
             messages.error(request, "Passwords do not match")
             return redirect('patient_register')
 
-        # Check for existing username/email in User table
+       
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists")
             return redirect('patient_register')
@@ -340,12 +309,12 @@ def patient_register(request):
             messages.error(request, "Email already exists in users")
             return redirect('patient_register')
 
-        # Check for existing email in Patient table
+      
         if Patient.objects.filter(email=email).exists():
             messages.error(request, "Email already exists in patients")
             return redirect('patient_register')
 
-        # Create Django User
+        
         user = User.objects.create_user(
             username=username,
             first_name=first_name,
@@ -354,7 +323,7 @@ def patient_register(request):
             password=password
         )
 
-        # Create Patient record
+        
         Patient.objects.create(
             first_name=first_name,
             last_name=last_name,
@@ -366,16 +335,10 @@ def patient_register(request):
             image=image
         )
 
-        messages.success(request, "Patient registered successfully. Please login.")
         return redirect('patient_login')
 
     return render(request, 'patient_register.html')
 
-
-
-
-
-# ---------------- Doctor Registration ----------------
 
 
 def doctor_register(request):
@@ -394,10 +357,6 @@ def doctor_register(request):
         qualification = request.POST.get('qualification')
         experience = request.POST.get('experience')
 
-        # Validations
-        if len(password) < 6:
-            messages.info(request, "Password must be at least 6 characters long!")
-            return redirect('doctor_register')
 
         if password != confirm_password:
             messages.info(request, "Passwords do not match!")
@@ -411,7 +370,6 @@ def doctor_register(request):
             messages.info(request, "Email already exists!")
             return redirect('doctor_register')
 
-        # Create Django user
         user = User.objects.create_user(
             username=username,
             email=email,
@@ -420,7 +378,7 @@ def doctor_register(request):
             last_name=last_name
         )
 
-        # Create Doctor profile
+       
         Doctor.objects.create(
             first_name=first_name,
             last_name=last_name,
@@ -430,23 +388,16 @@ def doctor_register(request):
             address=address,
             specialization=specialization,
             qualification=qualification,
-            experience=experience,  # ✅ added
+            experience=experience,  
             image=image,
         )
 
-        messages.success(request, "Doctor registered successfully! Await admin approval.")
         return redirect('doctor_login')
 
     return render(request, 'doctor_register.html')
 
 
 
-
-
-
-# -------------------------
-# Receptionist Login (Optional)
-# -------------------------
 def receptionist_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -456,7 +407,7 @@ def receptionist_login(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Logged in successfully!")
-            return redirect('receptionist_home')  # replace with your receptionist dashboard
+            return redirect('receptionist_home')  
         else:
             messages.error(request, "Incorrect username or password!")
             return redirect('receptionist_login')
@@ -477,22 +428,22 @@ def add_receptionist(request):
         address = request.POST['address']
         image = request.FILES.get('image')
 
-        # Password validation
+        
         if password != confirm_password:
             messages.info(request, "Passwords do not match!")
             return redirect('add_receptionist')
 
-        # Check username
+        
         if User.objects.filter(username=username).exists():
             messages.info(request, "Username already exists!")
             return redirect('add_receptionist')
 
-        # Check email
+        
         if User.objects.filter(email=email).exists():
             messages.info(request, "Receptionist with this email already exists!")
             return redirect('add_receptionist')
 
-        # Create user account
+       
         user = User.objects.create_user(
             username=username,
             email=email,
@@ -502,7 +453,7 @@ def add_receptionist(request):
         )
         user.save()
 
-        # Create receptionist record
+        
         Receptionist.objects.create(
             first_name=first_name,
             last_name=last_name,
@@ -513,14 +464,14 @@ def add_receptionist(request):
             image=image
         )
 
-        messages.success(request, "Receptionist added successfully!")
-        return redirect('admin_home')  # Redirect to admin home
+        
+        return redirect('admin_home') 
 
     return render(request, 'add_receptionist.html')
 
 def view_receptionists(request):
     receptionists_list = Receptionist.objects.all().order_by('id')
-    paginator = Paginator(receptionists_list, 6)  # Show 3 receptionists per page
+    paginator = Paginator(receptionists_list, 6)  
 
     page_number = request.GET.get('page', 1)
     try:
@@ -538,9 +489,9 @@ def delete_receptionist(request, r_id):
     messages.success(request, "Receptionist deleted successfully.")
     return redirect('view_receptionists')
 
-#----------receptionist home-----------------   
+
 def receptionist_home(request):
-    # Count appointments by status
+   
     new_count = Appointment.objects.filter(status='Pending').count()
     confirmed_count = Appointment.objects.filter(status='Confirmed').count()
     completed_count = Appointment.objects.filter(status='Completed').count()
@@ -557,10 +508,10 @@ def receptionist_home(request):
     })
 
 def new_appointments(request):
-    # Fetch all appointments ordered by date
+    
     appointments_list = Appointment.objects.all().order_by('appointment_date')
 
-    # Set up paginator (e.g., 7 per page)
+    
     paginator = Paginator(appointments_list, 6)
     page_number = request.GET.get('page')
     appointments = paginator.get_page(page_number)
@@ -579,38 +530,36 @@ def assign_status(request, s_id):
             messages.error(request, "Invalid status selected.")
             return redirect('assign_status', s_id=s_id)
 
-        # Update date and time directly from form inputs
+      
         new_date = request.POST.get('appointment_date')
         if new_date:
-            appointment.appointment_date = new_date  # Django handles conversion
+            appointment.appointment_date = new_date 
 
         new_time = request.POST.get('appointment_time')
         if new_time:
-            appointment.appointment_time = new_time  # Django handles conversion
+            appointment.appointment_time = new_time 
 
         appointment.save()
-        messages.success(request, "Appointment updated successfully.")
         return redirect('new_appointments')
 
     return render(request, 'assign_status.html', {'appointment': appointment})
 
 
 def confirmed_appointment(request):
-    # Get confirmed appointments sorted by date
+    
     appointments = Appointment.objects.filter(status='Confirmed').order_by('appointment_date')
 
-    # Apply pagination — show 5 appointments per page (you can change this number)
+    #
     paginator = Paginator(appointments, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Pass page_obj to the template
+    
     return render(request, 'confirmed_appointment.html', {'page_obj': page_obj})
 
 def all_appointments(request):
     appointments = Appointment.objects.all().order_by('-appointment_date')
     
-    # Add pagination (5 appointments per page)
     paginator = Paginator(appointments, 5)
     page_number = request.GET.get('page')
     page_ob = paginator.get_page(page_number)
@@ -633,7 +582,7 @@ def add_appointment_receptionist(request):
         symptoms = request.POST.get('symptoms')
         status = request.POST.get('status', 'Pending')
 
-        # Fetch related doctor and patient objects
+        
         try:
             doctor = Doctor.objects.get(id=doctor_id)
             patient = Patient.objects.get(id=patient_id)
@@ -641,7 +590,7 @@ def add_appointment_receptionist(request):
             messages.error(request, "Invalid Doctor or Patient selected.")
             return redirect('add_appointment')
 
-        # Save appointment
+        
         appointment = Appointment(
             doctor=doctor,
             patient=patient,
@@ -652,11 +601,7 @@ def add_appointment_receptionist(request):
             status=status
         )
         appointment.save()
-
-        messages.success(request, f"Appointment for {patient.first_name} {patient.last_name} with Dr. {doctor.first_name} added successfully!")
-        return redirect('all_appointments')  # Redirect to appointment list
-
-    # GET request: load doctors and patients
+        return redirect('all_appointments')  
     doctors = Doctor.objects.all()
     patients = Patient.objects.all()
 
@@ -664,27 +609,18 @@ def add_appointment_receptionist(request):
 
 def receptionist_logout (request):
     auth.logout(request)
-    messages.success(request, "You have been logged out.")
     return redirect('receptionist_login')
 
 
 
-# ---------------- Patient View ----------------
+
 
 def patient_records(request):
-    # Fetch all patients from the database
-    patients_list = Patient.objects.all()  # optional ordering
-
-    # Setup pagination — 5 patients per page (you can change this)
+    patients_list = Patient.objects.all()  
     paginator = Paginator(patients_list, 6)
     page_number = request.GET.get('page')
     patients = paginator.get_page(page_number)
-
-    # Render template with paginated data
     return render(request, 'patient_records.html', {'patients': patients})
-
-
-    
     return redirect('patient_records')
 
 def add_patient(request):
@@ -698,7 +634,6 @@ def add_patient(request):
         blood_group = request.POST.get('blood_group')
         image = request.FILES.get('image')
 
-        # Save patient
         patient = Patient(
             first_name=first_name,
             last_name=last_name,
@@ -710,7 +645,7 @@ def add_patient(request):
             image=image
         )
         patient.save()
-        return redirect('patient_records')  # redirect to patient list page
+        return redirect('patient_records') 
 
     return render(request, 'add_patient.html')  
 
@@ -719,8 +654,6 @@ def delete_patient(request, patient_id):
     patient.delete()
     return redirect('patient_records')
 
-
-# ---------------- Doctor Page ----------------
 
 def doctor_home(request):
     if not request.user.is_authenticated:
@@ -738,23 +671,19 @@ def doctor_home(request):
     })
 
 def appointments_doctor(request):
-    # Check if user is logged in
     if not request.user.is_authenticated:
         return redirect('doctor_login')
 
     try:
-        # Find doctor whose email matches the logged-in user
         doctor = Doctor.objects.get(email=request.user.email)
     except Doctor.DoesNotExist:
         messages.error(request, "No appointments found for this doctor.")
         return redirect('doctor_login')
 
-    # Fetch only that doctor's patients (appointments)
     appointments_list = Appointment.objects.filter(
         doctor=doctor
     ).order_by('-appointment_date', '-appointment_time')
 
-    # ✅ Add pagination (5 per page)
     paginator = Paginator(appointments_list, 6)
     page_number = request.GET.get('page', 1)
     try:
@@ -767,6 +696,7 @@ def appointments_doctor(request):
         'appointments_doctor.html',
         {'doctor': doctor, 'appointments': appointments}
     )
+
 def doctor_prescription(request, d_id):
     appointment = get_object_or_404(Appointment, id=d_id)
 
@@ -778,8 +708,8 @@ def doctor_prescription(request, d_id):
         medicines = request.POST.get('medicines')
         notes = request.POST.get('notes')
 
-        # Save to database
-        Prescription.objects.create(
+        
+        pe=Prescription(
             doctor_name=doctor_name,
             patient_name=patient_name,
             symptoms=symptoms,
@@ -787,7 +717,7 @@ def doctor_prescription(request, d_id):
             medicines=medicines,
             notes=notes
         )
-
+        pe.save()
         return redirect('appointments_doctor')
 
     return render(request, 'doctor_prescription.html', {'appointment': appointment})
@@ -799,7 +729,7 @@ def view_prescriptions(request):
     doctor_name = f"{request.user.first_name} {request.user.last_name}"
     prescriptions_list = Prescription.objects.filter(doctor_name=doctor_name).order_by('-id')
 
-    paginator = Paginator(prescriptions_list, 5)  # Show 5 prescriptions per page
+    paginator = Paginator(prescriptions_list, 5)  
     page_number = request.GET.get('page', 1)
 
     try:
