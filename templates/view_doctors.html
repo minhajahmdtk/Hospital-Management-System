@@ -7,16 +7,6 @@
 <div class="container mt-5">
   <h2 class="text-center fw-bold mb-4">Doctors List</h2>
 
-  <!-- Search bar -->
-  <div class="row mb-4">
-    <div class="col-md-4 ms-auto">
-      <form method="GET" class="d-flex" enctype="multipart/form-data">
-        <input type="text" name="search" value="{{ request.GET.search }}" class="form-control me-2" placeholder="Search doctors...">
-        <button type="submit" class="btn btn-dark">Search</button>
-      </form>
-    </div>
-  </div>
-
   <div class="card shadow border-0">
     <div class="card-body p-4">
       <div class="table-responsive">
@@ -74,8 +64,7 @@
               </li>
               {% else %}
               <li class="page-item">
-                <a class="page-link bg-secondary border-secondary text-white rounded" 
-                   href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                <a class="page-link bg-secondary border-secondary text-white rounded" href="?page={{ i }}">
                   {{ i }}
                 </a>
               </li>

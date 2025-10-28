@@ -1,18 +1,28 @@
 {% extends 'doctor_base.html' %}
-{% block title %}Doctor Dashboard - PulseTrack{% endblock %}
-{% block content %}
+{% load static %}
 
-<div class="container d-flex justify-content-center align-items-center" 
-     style="min-height: 80vh; text-align: center;">
-  <div>
-    <h2 class="fw-bold mb-3">
-      👋 Welcome , Dr. {{ request.user.first_name }} {{ request.user.last_name }}.
-    </h2>
-    <p class="lead text-muted">
-      It’s always an honor to have you at 
-      <span class="fw-semibold text-primary">PulseTrack Hospital</span>, 
-      where care meets excellence.
-    </p>
+{% block title %}Doctor Dashboard - PulseTrack{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'hms.css' %}">
+
+<div class="container mt-5 text-center">
+  <h1 class="fw-bold mb-4">
+    Welcome, Dr. {{ request.user.first_name }} {{ request.user.last_name }}
+  </h1>
+  <h5 class="text-muted mb-5">
+    Doctor dashboard of <span style="color: rgb(230, 48, 48); font-weight: bold;">PulseTrack</span>.
+  </h5>
+
+  <div class="row justify-content-center">
+    <div class="col-10 col-sm-8 col-md-6 col-lg-4">
+      <div class="card text-white bg-dark text-center py-5 shadow-lg rounded-4 d-flex align-items-center justify-content-center" style="height: 250px;" id="card-home">
+        <div>
+          <h3 class="mb-3">Total Appointments</h3>
+          <h1 class="fw-bold display-4">{{ total_appointments }}</h1>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

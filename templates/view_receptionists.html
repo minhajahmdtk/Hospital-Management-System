@@ -4,91 +4,79 @@
 {% block title %}Receptionists List{% endblock %}
 
 {% block content %}
-<h2 class="text-center fw-bold mt-4 mb-4">Receptionists List</h2>
+<div class="container mt-5">
+  <h2 class="text-center fw-bold mb-4">Receptionists List</h2>
 
-{% if messages %}
-  {% for message in messages %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-  {% endfor %}
-{% endif %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
 
-<!-- Search Bar -->
-<div class="row mb-4">
-  <div class="col-md-4 ms-auto">
-    <form method="GET" class="d-flex">
-      <input 
-        type="text" 
-        name="search" 
-        value="{{ request.GET.search }}" 
-        class="form-control me-2" 
-        placeholder="Search receptionists..."
-      >
-      <button type="submit" class="btn btn-dark">Search</button>
-    </form>
-  </div>
-</div>
-
-<div class="card shadow border-0">
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle rounded-3 overflow-hidden">
-        <thead class="table-dark text-center">
-          <tr>
-            <th>Full Name</th>
-            <th>Contact</th>
-            <th>Email</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody class="text-center">
-          {% for r in receptionists %}
-          <tr>
-            <td>{{ r.first_name }} {{ r.last_name }}</td>
-            <td>{{ r.phone }}</td>
-            <td>{{ r.email }}</td>
-            <td>
-              <a href="{% url 'delete_receptionist' r.id %}" 
-                 class="btn btn-danger btn-sm"
-                 onclick="return confirm('Are you sure you want to delete {{ r.first_name }}?');">
-                 Delete
-              </a>
-            </td>
-          </tr>
-          {% empty %}
-          <tr>
-            <td colspan="4" class="text-center text-muted py-3">
-              No receptionists found.
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    {% if receptionists.has_other_pages %}
-    <div class="d-flex justify-content-center mt-4">
-      <nav aria-label="Receptionist pagination">
-        <ul class="pagination">
-          {% for i in receptionists.paginator.page_range %}
-            {% if receptionists.number == i %}
-              <li class="page-item active">
-                <span class="page-link bg-dark border-dark text-white">{{ i }}</span>
-              </li>
-            {% else %}
-              <li class="page-item">
-                <a class="page-link bg-secondary border-secondary text-white" href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
-                  {{ i }}
+  <div class="card shadow border-0">
+    <div class="card-body p-4">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle rounded-3 overflow-hidden">
+          <thead class="table-dark text-center">
+            <tr>
+              <th>Full Name</th>
+              <th>Contact</th>
+              <th>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            {% for r in receptionists %}
+            <tr>
+              <td>{{ r.first_name }} {{ r.last_name }}</td>
+              <td>{{ r.phone }}</td>
+              <td>{{ r.email }}</td>
+              <td>
+                <a href="{% url 'delete_receptionist' r.id %}" 
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Are you sure you want to delete {{ r.first_name }}?');">
+                  Delete
                 </a>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </nav>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center text-muted py-3">
+                No receptionists found.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ✅ Pagination -->
+      {% if receptionists.has_other_pages %}
+      <div class="d-flex justify-content-center mt-4">
+        <nav aria-label="Receptionist pagination">
+          <ul class="pagination mb-0">
+            {% for i in receptionists.paginator.page_range %}
+              {% if receptionists.number == i %}
+                <li class="page-item active">
+                  <span class="page-link bg-dark border-dark text-white">{{ i }}</span>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link bg-secondary border-secondary text-white" href="?page={{ i }}">
+                    {{ i }}
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
+      {% endif %}
+      <!-- ✅ End Pagination -->
     </div>
-    {% endif %}
   </div>
 </div>
 {% endblock %}

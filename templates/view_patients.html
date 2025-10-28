@@ -7,16 +7,6 @@
 <div class="container mt-5">
   <h2 class="text-center fw-bold mb-4">Patients List</h2>
 
-  <!-- Search Bar -->
-  <div class="row mb-4">
-    <div class="col-md-4 ms-auto">
-      <form method="GET" class="d-flex">
-        <input type="text" name="search" value="{{ request.GET.search }}" class="form-control me-2" placeholder="Search patients...">
-        <button type="submit" class="btn btn-dark">Search</button>
-      </form>
-    </div>
-  </div>
-
   <!-- Table -->
   <div class="card shadow border-0">
     <div class="card-body p-4">
@@ -72,7 +62,7 @@
               {% else %}
               <li class="page-item">
                 <a class="page-link bg-secondary border-secondary text-white rounded" 
-                   href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                   href="?page={{ i }}">
                   {{ i }}
                 </a>
               </li>

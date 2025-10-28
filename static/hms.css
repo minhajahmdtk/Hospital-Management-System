@@ -24,8 +24,10 @@
 
 .btn:hover {
   background-color: lightgreen;
-  border: none;
-    color: black;
+  border: 1px solid lightgreen; /* match background */
+  color: black;
+  box-shadow: none;
+  transform: none;
 }
 .class-body{
    padding: 100px;
@@ -58,4 +60,19 @@
   box-shadow: 0 0 25px rgba(255, 193, 7, 0.6);
 }
 
+.btn {
+  padding: 6px 12px;
+  border: 1px solid transparent; /* keep consistent space */
+  transition: all 0.2s ease-in-out;
+}
 
+#card-home{
+  height: 230px;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+#card-home:hover{
+transform: scale(1.07);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+}

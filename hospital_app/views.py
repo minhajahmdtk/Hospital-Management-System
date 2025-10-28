@@ -42,7 +42,20 @@ def admin_login(request):
     return render(request, 'admin_login.html')
 
 # -------------------------
-# Admin Home
+# Admin Homedef doctor_home(request):
+    if not request.user.is_authenticated:
+        return redirect('doctor_login')
+
+    try:
+        doctor = Doctor.objects.get(email=request.user.email)
+    except Doctor.DoesNotExist:
+        doctor = None
+
+    total_appointments = Appointment.objects.filter(doctor=doctor).count() if doctor else 0
+
+    return render(request, 'doctor_home.html', {
+        'total_appointments': total_appointments,
+    })
 # -------------------------
 
 def admin_home(request):
@@ -69,7 +82,7 @@ def logout_view(request):
 
 def view_patients(request):
     patients = Patient.objects.all()
-    paginator= Paginator(patients, 4)
+    paginator= Paginator(patients, 6)
       
     page_number = request.GET.get('page', 1)
     try:
@@ -104,7 +117,7 @@ def view_patient_details(request, patient_id):
 
 def view_doctors(request):
     doctors_list = Doctor.objects.all().order_by('id')
-    paginator = Paginator(doctors_list, 4)  # Show 4 doctors per page
+    paginator = Paginator(doctors_list, 6)  # Show 4 doctors per page
 
     page_number = request.GET.get('page', 1)
     try:
@@ -469,7 +482,7 @@ def add_receptionist(request):
 
 def view_receptionists(request):
     receptionists_list = Receptionist.objects.all().order_by('id')
-    paginator = Paginator(receptionists_list, 5)  # Show 3 receptionists per page
+    paginator = Paginator(receptionists_list, 6)  # Show 3 receptionists per page
 
     page_number = request.GET.get('page', 1)
     try:
@@ -643,7 +656,19 @@ def add_patient(request):
 # ---------------- Doctor Page ----------------
 
 def doctor_home(request):
-    return render(request, 'doctor_home.html')
+    if not request.user.is_authenticated:
+        return redirect('doctor_login')
+
+    try:
+        doctor = Doctor.objects.get(email=request.user.email)
+    except Doctor.DoesNotExist:
+        doctor = None
+
+    total_appointments = Appointment.objects.filter(doctor=doctor).count() if doctor else 0
+
+    return render(request, 'doctor_home.html', {
+        'total_appointments': total_appointments,
+    })
 
 def appointments_doctor(request):
     # Check if user is logged in
@@ -658,11 +683,23 @@ def appointments_doctor(request):
         return redirect('doctor_login')
 
     # Fetch only that doctor's patients (appointments)
-    appointments = Appointment.objects.filter(doctor=doctor).order_by('-appointment_date', '-appointment_time')
+    appointments_list = Appointment.objects.filter(
+        doctor=doctor
+    ).order_by('-appointment_date', '-appointment_time')
 
-    return render(request, 'appointments_doctor.html', {'doctor': doctor,
-        'appointments': appointments})
+    # ✅ Add pagination (5 per page)
+    paginator = Paginator(appointments_list, 6)
+    page_number = request.GET.get('page', 1)
+    try:
+        appointments = paginator.page(page_number)
+    except (EmptyPage, InvalidPage):
+        appointments = paginator.page(paginator.num_pages)
 
+    return render(
+        request,
+        'appointments_doctor.html',
+        {'doctor': doctor, 'appointments': appointments}
+    )
 def doctor_prescription(request, d_id):
     appointment = get_object_or_404(Appointment, id=d_id)
 
@@ -694,7 +731,15 @@ def view_prescriptions(request):
         return redirect('doctor_login')
 
     doctor_name = f"{request.user.first_name} {request.user.last_name}"
-    prescriptions = Prescription.objects.filter(doctor_name=doctor_name).order_by('-id')
+    prescriptions_list = Prescription.objects.filter(doctor_name=doctor_name).order_by('-id')
+
+    paginator = Paginator(prescriptions_list, 5)  # Show 5 prescriptions per page
+    page_number = request.GET.get('page', 1)
+
+    try:
+        prescriptions = paginator.page(page_number)
+    except (InvalidPage, EmptyPage):
+        prescriptions = paginator.page(paginator.num_pages)
 
     return render(request, 'view_prescriptions.html', {'prescriptions': prescriptions})
 
@@ -702,7 +747,6 @@ def view_prescriptions(request):
 def delete_appointment_doctor(request, app_id):
     appointment = get_object_or_404(Appointment, id=app_id)
     appointment.delete()
-    messages.success(request, "Appointment deleted successfully.")
     return redirect('appointments_doctor')
 
 def delete_prescription(request, pre_id):
