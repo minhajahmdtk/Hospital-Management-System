@@ -15,6 +15,7 @@
       <table class="table table-bordered table-hover align-middle text-center" style="border-radius: 10px; overflow: hidden;">
         <thead class="table-dark">
           <tr>
+            <th>Sl No</th>
             <th>Doctor Name</th>
             <th>Symptoms</th>
             <th>Appointment Date</th>
@@ -26,6 +27,7 @@
         <tbody>
           {% for appointment in appointments %}
           <tr>
+            <td>{{ forloop.counter }}</td>
             <td>{{ appointment.doctor.first_name }} {{ appointment.doctor.last_name }}</td>
             <td>{{ appointment.symptoms }}</td>
             <td>
@@ -69,7 +71,7 @@
 
     <!-- Pagination (numbers only, no blue highlight) -->
     {% if appointments.has_other_pages %}
-    <div class="d-flex justify-content-center mt-4">
+    <div class="d-flex justify-content-center ">
       <nav aria-label="Appointment pagination">
         <ul class="pagination mb-0">
           {% for num in appointments.paginator.page_range %}
@@ -79,7 +81,7 @@
             </li>
             {% else %}
             <li class="page-item">
-              <a class="page-link text-dark" 
+              <a class="page-link bg-secondary border-secondary text-white" 
                  href="?page={{ num }}" 
                  style="outline: none; box-shadow: none;">{{ num }}</a>
             </li>

@@ -18,6 +18,7 @@
         <table class="table table-bordered table-hover align-middle rounded-3 overflow-hidden">
           <thead class="table-dark text-center">
             <tr>
+              <th>Sl No</th>
               <th>Full Name</th>
               <th>Contact</th>
               <th>Email</th>
@@ -27,14 +28,17 @@
           <tbody class="text-center">
             {% for r in receptionists %}
             <tr>
+              <td>{{ forloop.counter }}</td>
               <td>{{ r.first_name }} {{ r.last_name }}</td>
               <td>{{ r.phone }}</td>
               <td>{{ r.email }}</td>
               <td>
+                <a href="" class="btn btn-dark btn-sm">View</a>
                 <a href="{% url 'delete_receptionist' r.id %}" 
-                   class="btn btn-danger btn-md px-4 py-2 fw-semibold">
+                   class="btn btn-danger btn-sm">
                   <i class="bi bi-trash3"></i> Delete
                 </a>
+                
               </td>
             </tr>
             {% empty %}
@@ -61,7 +65,7 @@
               {% else %}
                 <li class="page-item">
                   <a class="page-link bg-secondary border-secondary text-white" 
-                     href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                     href="?page={{ i }}">
                     {{ i }}
                   </a>
                 </li>

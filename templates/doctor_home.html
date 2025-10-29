@@ -7,12 +7,17 @@
 <link rel="stylesheet" href="{% static 'hms.css' %}">
 
 <div class="container mt-5 text-center">
-  <h1 class="fw-bold mb-4">
+  <h2 class="fw-bold mb-4">
     Welcome, Dr. {{ request.user.first_name }} {{ request.user.last_name }}
-  </h1>
-  <h5 class="text-muted mb-5">
-    Doctor dashboard of <span style="color: rgb(230, 48, 48); font-weight: bold;">PulseTrack</span>.
-  </h5>
+  </h2>
+  <p class="lead text-muted">  
+  Manage your <strong>patients</strong>, review <strong>appointments</strong>,  
+  and stay on top of your <strong>medical duties</strong> efficiently with  
+  <span class="fw-semibold text-danger">PulseTrack </span>.
+</p>
+
+ 
+
 
   <div class="row justify-content-center">
     <div class="col-10 col-sm-8 col-md-6 col-lg-4">

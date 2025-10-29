@@ -13,6 +13,7 @@
       <table class="table table-bordered table-hover align-middle text-center" style="border-radius: 10px; overflow: hidden;">
         <thead class="table-dark">
           <tr>
+            <th>Sl No</th>
             <th>Doctor</th>
             <th>Disease</th>
             <th>Medicines</th>
@@ -22,6 +23,7 @@
         <tbody>
           {% for p in prescriptions %}
           <tr>
+            <td>{{ forloop.counter }}</td>
             <td>{{ p.doctor_name }}</td>
             <td>{{ p.disease }}</td>
             <td>{{ p.medicines }}</td>
@@ -38,7 +40,7 @@
 
     <!-- Pagination -->
     {% if prescriptions.has_other_pages %}
-    <div class="d-flex justify-content-center mt-4">
+    <div class="d-flex justify-content-center ">
       <nav aria-label="Medical history pagination">
         <ul class="pagination mb-0">
           {% for num in prescriptions.paginator.page_range %}
@@ -49,7 +51,7 @@
             {% else %}
               <li class="page-item">
                 <a class="page-link text-dark" href="?page={{ num }}"
-                   style="border: 1px solid #ccc; color: black; text-decoration: none;">
+                   style="outline: none; box-shadow: none;">
                   {{ num }}
                 </a>
               </li>

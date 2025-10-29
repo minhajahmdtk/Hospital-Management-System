@@ -17,6 +17,7 @@
               <th>Sl No</th>
               <th>Patient Name</th>
               <th>Symptoms</th>
+              
               <th>Date</th>
               <th>Time</th>
               <th>Action</th>
@@ -28,6 +29,7 @@
               <td>{{ forloop.counter }}</td>
               <td>{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</td>
               <td>{{ appointment.symptoms|default:"-" }}</td>
+              
               <td>{{ appointment.appointment_date|date:"d M Y" }}</td>
               <td>{{ appointment.appointment_time|time:"h:i A" }}</td>
               <td>
@@ -51,18 +53,18 @@
 
       <!-- ✅ Pagination -->
       {% if appointments.has_other_pages %}
-      <div class="d-flex justify-content-center mt-4">
+      <div class="d-flex justify-content-center">
         <nav aria-label="Page navigation">
           <ul class="pagination mb-0">
             {% for i in appointments.paginator.page_range %}
               {% if appointments.number == i %}
               <li class="page-item active">
-                <span class="page-link bg-dark border-dark text-white rounded">{{ i }}</span>
+                <span class="page-link bg-dark border-dark text-white ">{{ i }}</span>
               </li>
               {% else %}
               <li class="page-item">
-                <a class="page-link bg-secondary border-secondary text-white rounded"
-                   href="?page={{ i }}">
+                <a class="page-link bg-secondary border-secondary text-white "
+                   href="?page={{ i }}"style="outline: none; box-shadow: none;">
                   {{ i }}
                 </a>
               </li>

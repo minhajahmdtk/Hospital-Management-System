@@ -4,27 +4,23 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<style>
-  body {
-    background: url("{% static 'Home.jpg' %}") no-repeat center center fixed;
-    background-size: cover;
-    height: 100vh;
-  }
+<!-- ✅ External CSS link -->
+<link rel="stylesheet" href="{% static 'home.css' %}">
 
-  .home-container {
-    
-    padding: 200px;
-    
-    text-align: end;
-    margin-top: 100px;
-    
-  }
-</style>
+<div class="container hero-section">
+  <div class="hero-content">
+    <p class="text-success fw-semibold mb-2">Welcome To PulseTrack</p>
+    <h1 class="hero-title mb-3">We’ll Ensure You Always Get The Best Result.</h1>
+    <p class="hero-text">
+     We ensure that you always receive the best care and results.
+Our system is built to make hospital operations simple, efficient, and reliable — helping doctors, staff, and patients stay connected.
+Experience a smoother workflow, faster communication, and smarter healthcare management — all in one place.
+    </p>
 
-<div class="container">
-  <div class="home-container">
-    <h1 class="fw-bold text-dark">Welcome to PulseTrack</h1>
-    <p class="lead">Your trusted Hospital Management System</p>
+    <div class="mt-4">
+      <a href="#" class="btn btn-primary btn-lg me-3">Make An Appointment</a>
+      <a href="#" class="btn btn-outline-success btn-lg">Learn More</a>
+    </div>
   </div>
 </div>
 {% endblock %}

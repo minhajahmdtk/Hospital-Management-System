@@ -13,6 +13,7 @@
         <table class="table table-bordered table-hover align-middle" style="border-radius: 10px; overflow: hidden;">
           <thead class="table-dark text-center">
             <tr>
+              <th>Sl No</th>
               <th>Full Name</th>
               <th>Contact</th>
               <th>Email</th>
@@ -26,6 +27,7 @@
           <tbody class="text-center">
             {% for doctor in doctors %}
             <tr>
+              <td>{{forloop.counter}}</td>
               <td>{{ doctor.first_name }} {{ doctor.last_name }}</td>
               <td>{{ doctor.phone }}</td>
               <td>{{ doctor.email }}</td>
@@ -54,17 +56,18 @@
       </div>
 
       {% if doctors.has_other_pages %}
-      <div class="d-flex justify-content-center mt-4">
+      <div class="d-flex justify-content-center ">
         <nav aria-label="Page navigation">
           <ul class="pagination mb-0">
             {% for i in doctors.paginator.page_range %}
               {% if doctors.number == i %}
               <li class="page-item active">
-                <span class="page-link bg-dark border-dark text-white rounded">{{ i }}</span>
+                <span class="page-link bg-dark border-dark text-white ">{{ i }}</span>
               </li>
               {% else %}
               <li class="page-item">
-                <a class="page-link bg-secondary border-secondary text-white rounded" href="?page={{ i }}">
+                <a class="page-link bg-secondary border-secondary text-white " href="?page={{ i }}"
+                style="outline: none; box-shadow: none;">
                   {{ i }}
                 </a>
               </li>

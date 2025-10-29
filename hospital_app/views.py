@@ -72,7 +72,7 @@ def logout_view(request):
 
 def view_patients(request):
     patients = Patient.objects.all()
-    paginator= Paginator(patients, 6)
+    paginator= Paginator(patients, 2)
       
     page_number = request.GET.get('page', 1)
     try:
@@ -98,7 +98,7 @@ def view_patient_details(request, patient_id):
 
 def view_doctors(request):
     doctors_list = Doctor.objects.all().order_by('id')
-    paginator = Paginator(doctors_list, 6) 
+    paginator = Paginator(doctors_list, 2) 
 
     page_number = request.GET.get('page', 1)
     try:
@@ -201,7 +201,7 @@ def patient_logout(request):
 def take_appointment(request):
     doctors = Doctor.objects.filter(is_active=True).order_by('first_name')  
 
-    paginator = Paginator(doctors, 6)
+    paginator = Paginator(doctors, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -249,7 +249,7 @@ def view_appointments(request):
     appointments_list = Appointment.objects.filter(patient=patient).order_by('-id')
 
   
-    paginator = Paginator(appointments_list, 6) 
+    paginator = Paginator(appointments_list, 2) 
     page_number = request.GET.get('page')
     appointments = paginator.get_page(page_number)
 
@@ -268,10 +268,10 @@ def patient_medical_history(request):
         return redirect('patient_login')
 
     patient_name = f"{request.user.first_name} {request.user.last_name}"
-    prescriptions = Prescription.objects.filter(patient_name=patient_name).order_by('-id')
+    prescriptions = Prescription.objects.filter(patient_name=patient_name).order_by('id')
 
     # Pagination setup — 5 records per page
-    paginator = Paginator(prescriptions, 5)
+    paginator = Paginator(prescriptions, 2)
     page_number = request.GET.get('page')
     prescriptions_page = paginator.get_page(page_number)
 
@@ -465,13 +465,13 @@ def add_receptionist(request):
         )
 
         
-        return redirect('admin_home') 
+        return redirect('view_receptionists') 
 
     return render(request, 'add_receptionist.html')
 
 def view_receptionists(request):
     receptionists_list = Receptionist.objects.all().order_by('id')
-    paginator = Paginator(receptionists_list, 6)  
+    paginator = Paginator(receptionists_list,2 )  
 
     page_number = request.GET.get('page', 1)
     try:
@@ -509,10 +509,10 @@ def receptionist_home(request):
 
 def new_appointments(request):
     
-    appointments_list = Appointment.objects.all().order_by('appointment_date')
+    appointments_list = Appointment.objects.all().order_by('status')
 
     
-    paginator = Paginator(appointments_list, 6)
+    paginator = Paginator(appointments_list, 2)
     page_number = request.GET.get('page')
     appointments = paginator.get_page(page_number)
 
@@ -550,7 +550,7 @@ def confirmed_appointment(request):
     appointments = Appointment.objects.filter(status='Confirmed').order_by('appointment_date')
 
     #
-    paginator = Paginator(appointments, 5)
+    paginator = Paginator(appointments, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -560,7 +560,7 @@ def confirmed_appointment(request):
 def all_appointments(request):
     appointments = Appointment.objects.all().order_by('-appointment_date')
     
-    paginator = Paginator(appointments, 5)
+    paginator = Paginator(appointments, 2)
     page_number = request.GET.get('page')
     page_ob = paginator.get_page(page_number)
 
@@ -617,8 +617,8 @@ def receptionist_logout (request):
 
 def patient_records(request):
     patients_list = Patient.objects.all()  
-    paginator = Paginator(patients_list, 6)
-    page_number = request.GET.get('page')
+    paginator = Paginator(patients_list, 2)
+    page_number = request.GET.get('page',1)
     patients = paginator.get_page(page_number)
     return render(request, 'patient_records.html', {'patients': patients})
     return redirect('patient_records')
@@ -684,7 +684,7 @@ def appointments_doctor(request):
         doctor=doctor
     ).order_by('-appointment_date', '-appointment_time')
 
-    paginator = Paginator(appointments_list, 6)
+    paginator = Paginator(appointments_list, 2)
     page_number = request.GET.get('page', 1)
     try:
         appointments = paginator.page(page_number)
@@ -729,7 +729,7 @@ def view_prescriptions(request):
     doctor_name = f"{request.user.first_name} {request.user.last_name}"
     prescriptions_list = Prescription.objects.filter(doctor_name=doctor_name).order_by('-id')
 
-    paginator = Paginator(prescriptions_list, 5)  
+    paginator = Paginator(prescriptions_list, 2)  
     page_number = request.GET.get('page', 1)
 
     try:

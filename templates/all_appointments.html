@@ -15,6 +15,7 @@
         <table class="table table-bordered table-hover align-middle text-center">
           <thead class="table-dark">
             <tr>
+              <th>Sl No</th>
               <th>Patient Name</th>
               <th>Doctor Name</th>
               <th>Symptoms</th>
@@ -27,6 +28,7 @@
           <tbody>
             {% for appointment in page_obj %}
             <tr>
+              <td>{{ forloop.counter }}</td>
               <td>{{ appointment.patient }}</td>
               <td>{{ appointment.doctor }}</td>
               <td>{{ appointment.symptoms|default:"N/A" }}</td>
@@ -59,38 +61,22 @@
 
       <!-- ✅ Pagination -->
       {% if page_obj.has_other_pages %}
-      <nav class="mt-4">
-        <ul class="pagination justify-content-center">
-          {% if page_obj.has_previous %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-          </li>
-          {% else %}
-          <li class="page-item disabled"><span class="page-link">Previous</span></li>
-          {% endif %}
-
-          {% for num in page_obj.paginator.page_range %}
-          {% if page_obj.number == num %}
-          <li class="page-item active">
-            <span class="page-link">{{ num }}</span>
-          </li>
-          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-          </li>
-          {% endif %}
-          {% endfor %}
-
-          {% if page_obj.has_next %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-          </li>
-          {% else %}
-          <li class="page-item disabled"><span class="page-link">Next</span></li>
-          {% endif %}
-        </ul>
-      </nav>
-      {% endif %}
+            
+                <ul class="pagination justify-content-center">
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link bg-dark border-dark text-white">{{ num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link bg-secondary border-secondary text-white" href="?page={{ num }}" style="outline: none; box-shadow: none;">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            
+            {% endif %}
     </div>
   </div>
 </div>
