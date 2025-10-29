@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="container my-5">
-  <!-- Welcome Section -->
+ 
   <div class="text-center mb-5">
     <h2 class="fw-bold mb-3">
       Welcome, {{ request.user.first_name }} {{ request.user.last_name }}.
@@ -18,9 +18,9 @@
     </p>
   </div>
 
-  <!-- Dashboard Cards -->
+  
   <div class="row g-4 justify-content-center">
-    <!-- Pending -->
+    
     <div class="col-md-3 col-sm-6">
       <div class="card shadow border-0 rounded-4 text-center p-4 bg-warning cursor-pointer"
            style="transition: 0.3s; background: #fff;"
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <!-- Confirmed -->
+    
     <div class="col-md-3 col-sm-6 cursor-pointer">
       <div class="card shadow border-0 rounded-4 text-center p-4 bg-success "
            style="transition: 0.3s; background: #fff;"
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <!-- Completed -->
+    
     <div class="col-md-3 col-sm-6">
       <div class="card shadow border-0 rounded-4 text-center p-4 bg-primary"
            style="transition: 0.3s; background: #fff;"
@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <!-- Cancelled -->
+    
     <div class="col-md-3 col-sm-6">
       <div class="card shadow border-0 rounded-4 text-center p-4 bg-danger"
            style="transition: 0.3s; background: #fff;"

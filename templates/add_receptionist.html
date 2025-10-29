@@ -7,16 +7,14 @@
 
 <link rel="stylesheet" href="{% static 'hms.css' %}">
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
-  <div class="card shadow border-0" style="max-width: 600px; width: 100%; border-radius: 10px;">
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 45vh;"> 
+  <div class="card shadow border-0" style="max-width: 1150px; width: 100%; border-radius: 14px;"> 
     
-    <!-- Header -->
     <div class="card-header text-center text-white py-3 bg-dark rounded-top">
-      <h4 class="fw-bold mb-0"> Add Receptionist</h4>
+      <h4 class="fw-bold mb-0">Add Receptionist</h4>
       <p class="small mb-0 text-light">Register a new receptionist for PulseTrack Hospital</p>
     </div>
 
-    <!-- Body -->
     <div class="card-body p-4">
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -49,9 +47,8 @@
           </div>
 
           <div class="col-12">
-  <textarea name="address" class="form-control" placeholder="Address" rows="3" required></textarea>
-</div>
-
+            <textarea name="address" class="form-control" placeholder="Address" rows="3" required></textarea>
+          </div>
 
           <div class="col-md-6">
             <input type="password" name="password" class="form-control" placeholder="Password" required>

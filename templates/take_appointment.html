@@ -17,7 +17,7 @@
              onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)'"
              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.1)'">
 
-          <!-- Doctor Image -->
+         
           {% if doctor.image %}
             <img src="{{ doctor.image.url }}" 
                  class="rounded-circle mx-auto mb-3 border border-2 border-secondary"
@@ -30,7 +30,7 @@
                  style="width:150px; height:150px; object-fit:cover;">
           {% endif %}
 
-          <!-- Doctor Info -->
+          
           <div class="card-body">
             <h5 class="card-title fw-bold mb-1 text-dark">
               {{ doctor.first_name }} {{ doctor.last_name }}
@@ -61,7 +61,7 @@
     {% endfor %}
   </div>
 
-  <!-- ✅ Pagination -->
+
   {% if page_obj.has_other_pages %}
   <div class="d-flex justify-content-center">
     <nav aria-label="Doctor pagination">

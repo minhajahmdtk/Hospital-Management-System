@@ -6,10 +6,9 @@
 {% block content %}
 <div class="container mt-5">
 
-  <!-- Title -->
   <h2 class="text-center fw-bold mb-4">My Appointments</h2>
 
-  <!-- Table Card -->
+ 
   <div class="card shadow border-0 rounded-3 p-4">
     <div class="table-responsive">
       <table class="table table-bordered table-hover align-middle text-center" style="border-radius: 10px; overflow: hidden;">
@@ -69,7 +68,7 @@
       </table>
     </div>
 
-    <!-- Pagination (numbers only, no blue highlight) -->
+    
     {% if appointments.has_other_pages %}
     <div class="d-flex justify-content-center ">
       <nav aria-label="Appointment pagination">
@@ -91,10 +90,10 @@
       </nav>
     </div>
     {% endif %}
-    <!-- End Pagination -->
+   
   </div>
 </div>
 
-<!-- Remove blue focus outline -->
+
 
 {% endblock %}

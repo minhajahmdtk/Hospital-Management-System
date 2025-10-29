@@ -13,30 +13,30 @@
 
 <body class="bg-light">
 
-  <!-- ✅ Navbar -->
+  
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container py-2">
 
-      <!-- Logo (Left) -->
+      
      <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="{% static 'PulseTrack.png' %}" alt="PulseTrack" width="220px" height="60px" >
+      <img src="{% static 'PulseTrack.png' %}" alt="PulseTrack" width="200px" height="45px" >
       
     </a>
 
-      <!-- Mobile Toggle -->
+      
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <!-- Collapsible Content -->
+      
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
 
-        <!-- ✅ Center Section (Desktop) -->
+        
         <ul class="navbar-nav mx-auto d-none d-lg-flex">
           <li class="nav-item"><a class="nav-link" href="{% url 'receptionist_home' %}">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'add_appointment_receptionist' %}">Add Appointment</a></li>
 
-          <!-- Appointments Dropdown -->
+          
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Appointments</a>
             <ul class="dropdown-menu">
@@ -46,7 +46,7 @@
             </ul>
           </li>
 
-          <!-- Patients Dropdown -->
+         
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Patients</a>
             <ul class="dropdown-menu">
@@ -56,7 +56,7 @@
           </li>
         </ul>
 
-        <!-- ✅ Right Side (Username + Logout) -->
+       
         <ul class="navbar-nav ms-auto d-none d-lg-flex">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -68,7 +68,6 @@
           </li>
         </ul>
 
-        <!-- ✅ Mobile Version: Combined Dropdown -->
         <ul class="navbar-nav text-center d-lg-none w-100">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle fw-semibold" href="#" id="mainDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -99,7 +98,7 @@
     </div>
   </nav>
 
-  <!-- ✅ Page Content -->
+
   <div class="container mt-5">
     {% block content %}
     <div class="text-center">
@@ -109,7 +108,8 @@
     {% endblock %}
   </div>
 
-  <!-- Bootstrap JS -->
+
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

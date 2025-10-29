@@ -6,13 +6,7 @@
 {% block content %}
 <div class="container mt-5">
   <h2 class="text-center fw-bold mb-4">Receptionists List</h2>
-
-
-
- 
-  
-
-  <div class="card shadow border-0">
+<div class="card shadow border-0">
     <div class="card-body p-4">
       <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle rounded-3 overflow-hidden">
@@ -33,7 +27,7 @@
               <td>{{ r.phone }}</td>
               <td>{{ r.email }}</td>
               <td>
-                <a href="" class="btn btn-dark btn-sm">View</a>
+                <a href="{% url 'view_receptionist' r.id %}" class="btn btn-dark btn-sm">View</a>
                 <a href="{% url 'delete_receptionist' r.id %}" 
                    class="btn btn-danger btn-sm">
                   <i class="bi bi-trash3"></i> Delete
@@ -52,7 +46,7 @@
         </table>
       </div>
 
-      <!-- ✅ Pagination -->
+      
       {% if receptionists.has_other_pages %}
       <div class="d-flex justify-content-center mt-4">
         <nav aria-label="Receptionist pagination">
@@ -75,7 +69,7 @@
         </nav>
       </div>
       {% endif %}
-      <!-- ✅ End Pagination -->
+      
     </div>
   </div>
 </div>

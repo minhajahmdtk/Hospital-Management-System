@@ -30,7 +30,6 @@ def admin_login(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, f"Welcome {user.username}")
             return redirect('admin_home')  
         else:
             messages.error(request, "Invalid admin credentials")
@@ -72,7 +71,7 @@ def logout_view(request):
 
 def view_patients(request):
     patients = Patient.objects.all()
-    paginator= Paginator(patients, 2)
+    paginator= Paginator(patients, 6)
       
     page_number = request.GET.get('page', 1)
     try:
@@ -98,7 +97,7 @@ def view_patient_details(request, patient_id):
 
 def view_doctors(request):
     doctors_list = Doctor.objects.all().order_by('id')
-    paginator = Paginator(doctors_list, 2) 
+    paginator = Paginator(doctors_list, 6) 
 
     page_number = request.GET.get('page', 1)
     try:
@@ -115,7 +114,6 @@ def edit_doctor(request, doctor_id):
         status = request.POST.get('status')  
         doctor.is_active = True if status == 'active' else False
         doctor.save()
-        messages.success(request, f"{doctor.first_name} {doctor.last_name}'s status updated.")
         return redirect('view_doctors')
 
     return render(request, 'edit_doctor.html', {'doctor': doctor})
@@ -201,8 +199,8 @@ def patient_logout(request):
 def take_appointment(request):
     doctors = Doctor.objects.filter(is_active=True).order_by('first_name')  
 
-    paginator = Paginator(doctors, 2)
-    page_number = request.GET.get('page')
+    paginator = Paginator(doctors, 6)
+    page_number = request.GET.get('page',1)
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'take_appointment.html', {'page_obj': page_obj})
@@ -232,7 +230,6 @@ def add_appointments(request, doctor_id):
                 symptoms=symptoms,
                 status='Pending' 
             )
-            messages.success(request, "Appointment request submitted successfully!")
             return redirect('view_appointments')
         else:
             messages.error(request, "Please enter disease and describe your symptoms.")
@@ -246,11 +243,11 @@ def view_appointments(request):
         messages.error(request, "No patient profile found.")
         return redirect('patient_register')
 
-    appointments_list = Appointment.objects.filter(patient=patient).order_by('-id')
+    appointments_list = Appointment.objects.filter(patient=patient).order_by('id')
 
   
-    paginator = Paginator(appointments_list, 2) 
-    page_number = request.GET.get('page')
+    paginator = Paginator(appointments_list, 6) 
+    page_number = request.GET.get('page',1)
     appointments = paginator.get_page(page_number)
 
     return render(request, 'view_appointments.html', {'appointments': appointments})
@@ -259,7 +256,6 @@ def view_appointments(request):
 def delete_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     appointment.delete()
-   
     return redirect('view_appointments')
 
 
@@ -269,10 +265,8 @@ def patient_medical_history(request):
 
     patient_name = f"{request.user.first_name} {request.user.last_name}"
     prescriptions = Prescription.objects.filter(patient_name=patient_name).order_by('id')
-
-    # Pagination setup — 5 records per page
-    paginator = Paginator(prescriptions, 2)
-    page_number = request.GET.get('page')
+    paginator = Paginator(prescriptions, 6)
+    page_number = request.GET.get('page',1)
     prescriptions_page = paginator.get_page(page_number)
 
     return render(request, 'patient_medical_history.html', {
@@ -406,7 +400,6 @@ def receptionist_login(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, "Logged in successfully!")
             return redirect('receptionist_home')  
         else:
             messages.error(request, "Incorrect username or password!")
@@ -471,7 +464,7 @@ def add_receptionist(request):
 
 def view_receptionists(request):
     receptionists_list = Receptionist.objects.all().order_by('id')
-    paginator = Paginator(receptionists_list,2 )  
+    paginator = Paginator(receptionists_list,6 )  
 
     page_number = request.GET.get('page', 1)
     try:
@@ -486,12 +479,10 @@ def view_receptionists(request):
 def delete_receptionist(request, r_id):
     receptionist = get_object_or_404(Receptionist, id=r_id)
     receptionist.delete()
-    messages.success(request, "Receptionist deleted successfully.")
     return redirect('view_receptionists')
 
 
 def receptionist_home(request):
-   
     new_count = Appointment.objects.filter(status='Pending').count()
     confirmed_count = Appointment.objects.filter(status='Confirmed').count()
     completed_count = Appointment.objects.filter(status='Completed').count()
@@ -512,10 +503,9 @@ def new_appointments(request):
     appointments_list = Appointment.objects.all().order_by('status')
 
     
-    paginator = Paginator(appointments_list, 2)
-    page_number = request.GET.get('page')
+    paginator = Paginator(appointments_list, 6)
+    page_number = request.GET.get('page',1)
     appointments = paginator.get_page(page_number)
-
     return render(request, 'new_appointments.html', {'appointments': appointments})
 
 def assign_status(request, s_id):
@@ -550,18 +540,17 @@ def confirmed_appointment(request):
     appointments = Appointment.objects.filter(status='Confirmed').order_by('appointment_date')
 
     #
-    paginator = Paginator(appointments, 2)
-    page_number = request.GET.get('page')
+    paginator = Paginator(appointments, 6)
+    page_number = request.GET.get('page',1)
     page_obj = paginator.get_page(page_number)
 
     
     return render(request, 'confirmed_appointment.html', {'page_obj': page_obj})
 
 def all_appointments(request):
-    appointments = Appointment.objects.all().order_by('-appointment_date')
-    
-    paginator = Paginator(appointments, 2)
-    page_number = request.GET.get('page')
+    appointments = Appointment.objects.all().order_by('appointment_date')
+    paginator = Paginator(appointments, 6)
+    page_number = request.GET.get('page',1)
     page_ob = paginator.get_page(page_number)
 
     return render(request, 'all_appointments.html', {'page_obj': page_ob})
@@ -569,7 +558,6 @@ def all_appointments(request):
 def delete_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     appointment.delete()
-    messages.success(request, "Appointment deleted successfully.")
     return redirect('all_appointments')
 
 def add_appointment_receptionist(request):
@@ -612,12 +600,9 @@ def receptionist_logout (request):
     return redirect('receptionist_login')
 
 
-
-
-
 def patient_records(request):
     patients_list = Patient.objects.all()  
-    paginator = Paginator(patients_list, 2)
+    paginator = Paginator(patients_list, 6)
     page_number = request.GET.get('page',1)
     patients = paginator.get_page(page_number)
     return render(request, 'patient_records.html', {'patients': patients})
@@ -682,9 +667,9 @@ def appointments_doctor(request):
 
     appointments_list = Appointment.objects.filter(
         doctor=doctor
-    ).order_by('-appointment_date', '-appointment_time')
+    ).order_by('appointment_date', 'appointment_time')
 
-    paginator = Paginator(appointments_list, 2)
+    paginator = Paginator(appointments_list, 6)
     page_number = request.GET.get('page', 1)
     try:
         appointments = paginator.page(page_number)
@@ -727,9 +712,9 @@ def view_prescriptions(request):
         return redirect('doctor_login')
 
     doctor_name = f"{request.user.first_name} {request.user.last_name}"
-    prescriptions_list = Prescription.objects.filter(doctor_name=doctor_name).order_by('-id')
+    prescriptions_list = Prescription.objects.filter(doctor_name=doctor_name).order_by('id')
 
-    paginator = Paginator(prescriptions_list, 2)  
+    paginator = Paginator(prescriptions_list,6)  
     page_number = request.GET.get('page', 1)
 
     try:
@@ -752,7 +737,9 @@ def delete_prescription(request, pre_id):
 
 def doctor_logout(request):
     auth.logout(request)
-    
     return redirect('doctor_login')
 
 
+def view_receptionist(request,rec_id):
+    recep = get_object_or_404(Receptionist, id=rec_id)
+    return render(request, 'view_receptionist.html', {'reception': recep})

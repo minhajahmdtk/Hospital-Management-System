@@ -58,6 +58,7 @@ urlpatterns = [
     path('add-patient/', views.add_patient, name='add_patient'),
     path('receptionist-logout/', views.receptionist_logout, name='receptionist_logout'),
     path('add-appointment-receptionist', views.add_appointment_receptionist, name='add_appointment_receptionist'),
+    path('view-receptionist/<int:rec_id>/', views.view_receptionist, name='view_receptionist'),
 
     # ✅ Doctor Page
     path('doctor-home/', views.doctor_home, name='doctor_home'),

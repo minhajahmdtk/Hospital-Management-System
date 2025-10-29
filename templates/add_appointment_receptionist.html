@@ -10,20 +10,20 @@
 <div class="container d-flex justify-content-center align-items-center min-vh-50">
   <div class="card shadow-lg border-0 rounded-4" style="width: 650px;">
     
-    <!-- Header -->
+    
     <div class="card-header text-center text-white py-3 bg-dark rounded-top-4">
       <h4 class="fw-bold mb-0"> Add Appointment</h4>
       <p class="small text-light mb-0">Schedule a new appointment quickly</p>
     </div>
 
-    <!-- Body -->
+    
     <div class="card-body p-4">
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         
         <div class="row g-3">
           
-          <!-- Doctor -->
+          
           <div class="col-md-12">
             <select class="form-select input-focus" name="doctor" required>
               <option value="">Select Doctor</option>
@@ -33,7 +33,7 @@
             </select>
           </div>
 
-          <!-- Patient -->
+          
           <div class="col-md-12">
             <select class="form-select input-focus" name="patient" required>
               <option value="">Select Patient</option>
@@ -43,22 +43,22 @@
             </select>
           </div>
 
-          <!-- Appointment Date -->
+          
           <div class="col-md-6">
             <input type="date" name="appointment_date" class="form-control input-focus" required>
           </div>
 
-          <!-- Appointment Time -->
+         
           <div class="col-md-6">
             <input type="time" name="appointment_time" class="form-control input-focus" required>
           </div>
 
-          <!-- Symptoms -->
+          
           <div class="col-12">
             <textarea name="symptoms" class="form-control input-focus" rows="2" placeholder="Enter symptoms"></textarea>
           </div>
 
-          <!-- Status -->
+         
           <div class="col-12">
             <select class="form-select input-focus" name="status" required>
               <option value="Pending">Pending</option>
@@ -67,7 +67,7 @@
           </div>
         </div>
 
-        <!-- Submit Button -->
+       
         <button type="submit" class="btn btn-dark w-100 mt-4 py-2">Add Appointment</button>
       </form>
 

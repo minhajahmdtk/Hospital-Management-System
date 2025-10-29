@@ -6,18 +6,18 @@
 {% block content %}
 <div class="container my-5">
   <div class="card shadow border-0 rounded-3 p-4">
-    <div class="row g-4 align-items-center">
+    <div class="row g-4 align-items-start justify-content-center">
 
-      <!-- LEFT SIDE: Doctor Image + Details Table -->
-      <div class="col-md-4 text-center">
+     
+      <div class="col-md-5 text-center">
         {% if doctor.image %}
           <img src="{{ doctor.image.url }}" alt="Doctor Image"
                class="img-fluid rounded-circle shadow mb-3"
-               style="width: 250px; height: 250px; object-fit: cover;">
+               style="width: 180px; height: 180px; object-fit: cover;">
         {% else %}
           <img src="{% static 'images/default_avatar.png' %}" alt="Default Doctor"
                class="img-fluid rounded-circle shadow mb-3"
-               style="width: 250px; height: 250px; object-fit: cover;">
+               style="width: 180px; height: 180px; object-fit: cover;">
         {% endif %}
 
         <div class="table-responsive mt-3">
@@ -26,10 +26,6 @@
               <tr>
                 <th class="bg-dark text-white" scope="row">Name</th>
                 <td>{{ doctor.first_name }} {{ doctor.last_name }}</td>
-              </tr>
-              
-              <tr>
-                
               </tr>
               <tr>
                 <th class="bg-dark text-white" scope="row">Email</th>
@@ -48,38 +44,37 @@
         </div>
       </div>
 
-      <!-- RIGHT SIDE: Appointment Form -->
-      <div class="col-md-8">
-        <h5 class="fw-bold mb-3 text-dark">Add Appointment</h5>
-        <form method="POST" action="{% url 'add_appointments' doctor.id %}">
-          {% csrf_token %}
+      
+      <div class="col-md-6">
+        <div class="mx-auto" style="max-width: 380px;">
+          <h5 class="fw-bold mb-3 text-dark text-center">Add Appointment</h5>
 
-          <!-- Symptoms / Description -->
-          <div class="mb-3">
-            <label for="symptoms" class="form-label fw-semibold">Describe Your Symptoms</label>
-            <textarea name="symptoms" id="symptoms" 
-                      class="form-control form-control-lg shadow-sm"
-                      rows="5"
-                      placeholder="Describe your symptoms clearly, including duration, severity, and any previous treatments..."
-                      required></textarea>
-          </div>
+          <form method="POST" action="{% url 'add_appointments' doctor.id %}">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="symptoms" class="form-label fw-semibold">Describe Your Symptoms</label>
+              <textarea name="symptoms" id="symptoms" 
+                        class="form-control shadow-sm"
+                        rows="3"
+                        placeholder="Briefly describe your symptoms..."
+                        required></textarea>
+            </div>
 
-          <!-- Confirm Button -->
-          <div class="text-end">
-            <button type="submit" 
-                    class="btn btn-dark px-4 py-2 fw-semibold"
-                    style="border-radius: None; transition: 0.3s;"
-                    onmouseover="this.style.backgroundColor='#90EE90'; this.style.color='black';"
-                    onmouseout="this.style.backgroundColor='black'; this.style.color='white';">
-              Confirm Appointment
-            </button>
-          </div>
-        </form>
+            <div class="text-center">
+              <button type="submit" 
+                      class="btn btn-dark px-4 py-2 fw-semibold"
+                      style="transition: 0.3s;"
+                      onmouseover="this.style.backgroundColor='#90EE90'; this.style.color='black';"
+                      onmouseout="this.style.backgroundColor='black'; this.style.color='white';">
+                Confirm Appointment
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
     </div>
   </div>
 </div>
-
-
 {% endblock %}

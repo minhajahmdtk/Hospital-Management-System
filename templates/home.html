@@ -1,26 +1,99 @@
 {% extends 'base_home.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Home - PulseTrack Hospital Management System{% endblock %}
 
 {% block content %}
-<!-- ✅ External CSS link -->
-<link rel="stylesheet" href="{% static 'home.css' %}">
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
 
-<div class="container hero-section">
-  <div class="hero-content">
-    <p class="text-success fw-semibold mb-2">Welcome To PulseTrack</p>
-    <h1 class="hero-title mb-3">We’ll Ensure You Always Get The Best Result.</h1>
-    <p class="hero-text">
-     We ensure that you always receive the best care and results.
-Our system is built to make hospital operations simple, efficient, and reliable — helping doctors, staff, and patients stay connected.
-Experience a smoother workflow, faster communication, and smarter healthcare management — all in one place.
+  body {
+    background: url("{% static 'home (2).jpg' %}") no-repeat center center fixed;
+    background-size: cover;
+  }
+
+  
+  .home-section {
+    transform: translateY(-130px); 
+    text-align: left;
+    max-width: 750px;
+  }
+
+  .home-section h1 {
+    font-weight: 700;
+  }
+
+  .home-section p {
+    font-size: 1.05rem;
+  }
+
+  .btn {
+    border-radius: 30px;
+    padding: 10px 25px;
+  }
+
+ 
+  footer {
+    background-color: white;
+    color: #333;
+    text-align: center;
+    padding: 40px 0 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-top: 2px solid #f1f1f1;
+  }
+  footer p {
+    color: #000000;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+
+  hr {
+    width: 50%;
+    margin: 15px auto;
+    border-color: #dee2e6;
+  }
+</style>
+
+
+<div class="container-fluid d-flex justify-content-start align-items-center vh-100 ps-5">
+  <div class="p-4 rounded-4 home-section">
+    <p class="text-danger fw-semibold mb-2">Welcome To PulseTrack</p>
+    <h1 class="fw-bold text-light mb-3">We’ll Ensure You Always Get The Best Result.</h1>
+
+    <p class="lead text-light">
+      We ensure that you always receive the best care and results.
+      Our system is built to make hospital operations simple, efficient, and reliable —
+      helping doctors, staff, and patients stay connected.
+    </p>
+
+    <p class="text-light mb-4">
+      Experience a smoother workflow, faster communication, and smarter healthcare management —
+      all in one place.
     </p>
 
     <div class="mt-4">
-      <a href="#" class="btn btn-primary btn-lg me-3">Make An Appointment</a>
-      <a href="#" class="btn btn-outline-success btn-lg">Learn More</a>
+      <a href="{% url 'about' %}" class="btn btn-outline-light btn-lg">Learn More</a>
     </div>
   </div>
 </div>
+
+
+<footer>
+  <div>
+   <img src="{% static 'logo2.png' %}" alt="PulseTrack Logo" width="55px">
+
+
+    <hr>
+    <p>© 2025 PulseTrack. All Rights Reserved.</p>
+  </div>
+</footer>
+
 {% endblock %}

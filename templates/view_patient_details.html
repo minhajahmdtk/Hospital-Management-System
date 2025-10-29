@@ -6,19 +6,19 @@
 {% block content %}
 <div class="container mt-5">
 
-  <!-- Title -->
+  
   <h2 class="text-center fw-bold mb-4">Patient Details</h2>
 
-  <!-- Back button -->
+  
   <div class="text-end mb-3">
     <a href="{% url 'view_patients' %}" class="btn btn-dark">← Back to List</a>
   </div>
 
-  <!-- Card -->
+ 
   <div class="card shadow border-0 rounded-3 p-4">
     <div class="row g-4 align-items-center">
       
-      <!-- Left Column: Image -->
+      
       <div class="col-md-4 text-center">
         {% if patient.image %}
           <img src="{{ patient.image.url }}" alt="Patient Image"
@@ -31,7 +31,7 @@
         {% endif %}
       </div>
 
-      <!-- Right Column: Details Table -->
+     
       <div class="col-md-8">
         <div class="table-responsive">
           <table class="table table-bordered table-hover align-middle" style="border-radius: 10px; overflow: hidden;">

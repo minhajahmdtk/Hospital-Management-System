@@ -1,27 +1,27 @@
 {% extends 'base_admin.html' %}
 {% load static %}
 
-{% block title %}Doctor Details{% endblock %}
+{% block title %}Receptionist Details{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
 
   <!-- Title -->
-  <h2 class="text-center fw-bold mb-4">Doctor Details</h2>
+  <h2 class="text-center fw-bold mb-4">Receptionist Details</h2>
 
   <!-- Back Button -->
   <div class="text-end mb-3">
-    <a href="{% url 'view_doctors' %}" class="btn btn-dark">← Back to List</a>
+    <a href="{% url 'view_receptionists' %}" class="btn btn-dark">← Back to List</a>
   </div>
 
- 
+  <!-- Card -->
   <div class="card shadow border-0 rounded-3 p-4">
     <div class="row g-4 align-items-center">
-      
-      
+
+      <!-- Profile Image Section -->
       <div class="col-md-4 text-center">
-        {% if doctor.image %}
-          <img src="{{ doctor.image.url }}" alt="Doctor Image"
+        {% if reception.image %}
+          <img src="{{ reception.image.url }}" alt="Receptionist Image"
                class="img-fluid rounded-circle shadow mb-3"
                style="width: 250px; height: 250px; object-fit: cover;">
         {% else %}
@@ -30,39 +30,30 @@
                style="width: 250px; height: 250px; object-fit: cover;">
         {% endif %}
 
-        <h4 class="fw-semibold text-dark mt-3">{{ doctor.first_name }} {{ doctor.last_name }}</h4>
-        <p class="fw-semibold text-secondary">{{ doctor.specialization|default:"Specialization not available" }}</p>
-        
+        <h4 class="fw-semibold text-dark mt-3">{{ reception.first_name }} {{ reception.last_name }}</h4>
+       
       </div>
 
-      
+      <!-- Info Table -->
       <div class="col-md-8">
         <div class="table-responsive">
           <table class="table table-bordered table-hover align-middle" style="border-radius: 10px; overflow: hidden;">
             <tbody>
               <tr>
-                <th class="bg-dark text-white" scope="row">Qualification</th>
-                <td>{{ doctor.qualification|default:"Qualification not available" }}</td>
-              </tr>
-              <tr>
                 <th class="bg-dark text-white" scope="row">Email</th>
-                <td>{{ doctor.email }}</td>
+                <td>{{ reception.email }}</td>
               </tr>
               <tr>
                 <th class="bg-dark text-white" scope="row">Phone</th>
-                <td>{{ doctor.phone }}</td>
+                <td>{{ reception.phone }}</td>
               </tr>
               <tr>
                 <th class="bg-dark text-white" scope="row">Gender</th>
-                <td>{{ doctor.Gender }}</td>
+                <td>{{ reception.gender }}</td>
               </tr>
               <tr>
                 <th class="bg-dark text-white" scope="row">Address</th>
-                <td>{{ doctor.address|default:"N/A" }}</td>
-              </tr>
-              <tr>
-                <th class="bg-dark text-white" scope="row">Experience</th>
-                <td>{{ doctor.experience|default:"N/A" }}</td>
+                <td>{{ reception.address|default:"N/A" }}</td>
               </tr>
             </tbody>
           </table>
